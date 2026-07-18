@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { io, Socket } from 'socket.io-client';
 import { startPcmCapture, type StopCapture } from '../lib/pcm-capture';
 
-export const API_URL = (import.meta as any).env?.VITE_API_URL ?? 'http://localhost:3000';
+export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
 export type WordStatus = 'pending' | 'correct' | 'mistake';
 

@@ -1,0 +1,12 @@
+# Netlify hosts the frontend only. The NestJS backend (websockets) must run on a
+# websocket-capable host (Render/Railway/Fly); set VITE_API_URL to its public URL.
+[build]
+  base = "frontend"
+  command = "yarn build"
+  publish = "dist"
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

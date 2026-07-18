@@ -1,0 +1,16 @@
+# Render blueprint: deploys the NestJS websocket backend.
+# Frontend lives on Netlify (see netlify.toml); point its VITE_API_URL at this service.
+services:
+  - type: web
+    name: quranic-ai-agent-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: yarn install --frozen-lockfile && npx prisma generate && yarn build
+    startCommand: npx prisma migrate deploy && node dist/main
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: OPENAI_API_KEY
+        sync: false # set in the Render dashboard — never committed

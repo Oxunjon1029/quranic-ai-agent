@@ -61,7 +61,7 @@ export default function LiveSurahSelector() {
         <div className="flex gap-2 mt-5">
           <button
             onClick={() => setSelected(null)}
-            className="flex-1 rounded-xl border border-input py-2.5 text-sm hover:bg-secondary transition-colors"
+            className="flex-1 rounded-xl border border-input py-2.5 px-5 text-sm font-medium whitespace-nowrap hover:bg-secondary transition-colors inline-flex items-center justify-center"
           >
             Back
           </button>

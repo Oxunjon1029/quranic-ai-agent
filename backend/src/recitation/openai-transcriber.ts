@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import { WebSocket } from 'ws';
 
 /** Streams PCM16 audio to OpenAI Realtime transcription and surfaces Arabic transcript deltas. */
 export class OpenAiTranscriber {

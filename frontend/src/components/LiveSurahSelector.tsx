@@ -22,7 +22,10 @@ export default function LiveSurahSelector() {
   useEffect(() => {
     fetch(`${API_URL}/quran/surahs`)
       .then((r) => r.json())
-      .then(setSurahs)
+      .then((data) => {
+        if (Array.isArray(data)) setSurahs(data);
+        else setLoadError(true); // backend running old code or error payload
+      })
       .catch(() => setLoadError(true));
   }, []);
 

@@ -3,7 +3,10 @@
 [build]
   base = "frontend"
   command = "yarn build"
-  publish = "dist"
+  publish = "frontend/dist"
+
+[build.environment]
+  VITE_API_URL = "https://quranic-ai-agent-backend.onrender.com"
 
 # SPA fallback
 [[redirects]]

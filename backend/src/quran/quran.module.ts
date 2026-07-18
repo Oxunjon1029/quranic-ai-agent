@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { QuranService } from './quran.service';
+import { QuranController } from './quran.controller';
 
-@Module({ providers: [QuranService], exports: [QuranService] })
+@Module({ controllers: [QuranController], providers: [QuranService], exports: [QuranService] })
 export class QuranModule {}

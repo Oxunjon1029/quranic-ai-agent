@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,6 +55,11 @@
     @apply bg-background text-foreground antialiased;
     font-family: "Inter", system-ui, sans-serif;
   }
+}
+
+/* Quranic Arabic typography */
+.font-quran {
+  font-family: 'Amiri', 'Traditional Arabic', serif;
 }
 
 /* Glassmorphism utility */

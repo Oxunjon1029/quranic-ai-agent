@@ -1,4 +1,7 @@
+import { Logger } from '@nestjs/common';
 import { WebSocket } from 'ws';
+
+const logger = new Logger('OpenAiTranscriber');
 
 /** Streams PCM16 audio to OpenAI Realtime transcription and surfaces Arabic transcript deltas. */
 export class OpenAiTranscriber {
@@ -43,13 +46,23 @@ export class OpenAiTranscriber {
         } catch {
           return;
         }
-        if (msg.type === 'conversation.item.input_audio_transcription.delta' && msg.delta) {
+        logger.log(`openai event: ${msg.type}`);
+        if (msg.type.endsWith('.failed')) {
+          logger.error(`transcription failed: ${JSON.stringify(msg).slice(0, 500)}`);
+          this.onError(new Error(msg.error?.message ?? 'transcription failed'));
+        }
+        // beta + GA event names for transcription deltas
+        if (
+          (msg.type === 'conversation.item.input_audio_transcription.delta' ||
+            msg.type === 'input_audio_transcription.delta') &&
+          msg.delta
+        ) {
           this.onDelta(msg.delta);
         }
-        if (msg.type === 'conversation.item.input_audio_transcription.completed' && msg.transcript) {
-          // completed events sometimes carry words the deltas missed; tracker dedupes by position
+        if (msg.type === 'error') {
+          logger.error(`openai error payload: ${JSON.stringify(msg.error ?? msg)}`);
+          this.onError(new Error(msg.error?.message ?? 'openai error'));
         }
-        if (msg.type === 'error') this.onError(new Error(msg.error?.message ?? 'openai error'));
       });
       this.ws.on('error', (e) => {
         this.onError(e as Error);

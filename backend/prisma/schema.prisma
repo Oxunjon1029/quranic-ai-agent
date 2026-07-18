@@ -17,12 +17,29 @@ model User {
 
 model Session {
   id          String          @id @default(uuid())
-  userId      String
-  user        User            @relation(fields: [userId], references: [id])
+  userId      String?
+  user        User?           @relation(fields: [userId], references: [id])
+  surah       Int             @default(1)
+  startAyah   Int             @default(1)
   startedAt   DateTime        @default(now())
   endedAt     DateTime?
   status      String          @default("ACTIVE") // ACTIVE, COMPLETED, ABANDONED
+  wordsTotal  Int             @default(0)
+  wordsRead   Int             @default(0)
   recitations RecitationLog[]
+  mistakes    Mistake[]
+}
+
+model Mistake {
+  id        String   @id @default(uuid())
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id])
+  type      String // wrong-word | skipped | added | stuck
+  ayah      Int
+  wordIndex Int // globalIndex within the session's word range
+  expected  String
+  actual    String?
+  createdAt DateTime @default(now())
 }
 
 model RecitationLog {

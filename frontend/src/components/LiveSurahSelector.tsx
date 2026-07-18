@@ -102,13 +102,15 @@ export default function LiveSurahSelector() {
           <Card
             key={s.number}
             onClick={() => { setSelected(s); setStartAyah(1); }}
-            className="p-4 cursor-pointer hover:shadow-lg hover:border-primary/40 hover:scale-[1.02] transition-all duration-200 active:scale-[0.98]"
+            className="group p-4 cursor-pointer bg-card/70 backdrop-blur hover:shadow-xl hover:shadow-primary/10 hover:border-accent/50 hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98]"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-muted-foreground">{s.number}</span>
-              <span className="font-quran text-xl">{s.name}</span>
+            <div className="flex items-center justify-between gap-2">
+              <div className="medallion shrink-0 group-hover:rotate-[135deg] transition-transform duration-500">
+                <span className="text-xs font-semibold text-primary">{s.number}</span>
+              </div>
+              <span className="font-quran text-xl leading-tight text-right">{s.name}</span>
             </div>
-            <p className="text-sm font-medium mt-1">{s.englishName}</p>
+            <p className="text-sm font-semibold mt-2.5">{s.englishName}</p>
             <p className="text-[11px] text-muted-foreground">{s.ayahCount} ayahs</p>
           </Card>
         ))}

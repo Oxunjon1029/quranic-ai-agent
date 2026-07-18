@@ -34,14 +34,12 @@ export default function SessionSummary() {
 
   return (
     <div className="w-full max-w-lg mx-auto animate-fade-in-up space-y-4 pb-10">
-      <Card className="p-6 text-center glass border-primary/20">
-        <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-          <CheckCircle2 className="w-7 h-7 text-primary" />
-        </div>
-        <h2 className="text-xl font-semibold">Session Complete</h2>
+      <Card className="p-6 text-center glass border-primary/20 overflow-hidden relative">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-primary" />
+        <AccuracyRing value={Math.max(0, accuracy)} />
+        <h2 className="text-xl font-bold mt-3 text-gradient inline-block">Session Complete</h2>
         <p className="text-sm text-muted-foreground mt-1">{surahName}</p>
-        <div className="grid grid-cols-3 gap-3 mt-5">
-          <Stat label="Accuracy" value={`${Math.max(0, accuracy)}%`} highlight />
+        <div className="grid grid-cols-2 gap-3 mt-5">
           <Stat label="Words read" value={`${summary.wordsRead}/${summary.wordsTotal}`} />
           <Stat label="Mistakes" value={String(summary.mistakes.length)} />
         </div>
@@ -92,6 +90,44 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
     <div className="rounded-xl bg-secondary/60 py-3">
       <p className={cn('text-lg font-semibold', highlight && 'text-primary')}>{value}</p>
       <p className="text-[11px] text-muted-foreground">{label}</p>
+    </div>
+  );
+}
+
+function AccuracyRing({ value }: { value: number }) {
+  const r = 50;
+  const c = 2 * Math.PI * r; // ~314
+  const offset = c - (c * value) / 100;
+  return (
+    <div className="relative mx-auto w-32 h-32">
+      <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+        <circle cx="60" cy="60" r={r} fill="none" strokeWidth="9" className="stroke-secondary" />
+        <circle
+          cx="60"
+          cy="60"
+          r={r}
+          fill="none"
+          strokeWidth="9"
+          strokeLinecap="round"
+          strokeDasharray={c}
+          strokeDashoffset={offset}
+          className="animate-ring"
+          stroke="url(#ringGrad)"
+        />
+        <defs>
+          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="hsl(160 84% 35%)" />
+            <stop offset="100%" stopColor="hsl(43 96% 50%)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-3xl font-extrabold text-primary">{value}%</span>
+        <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Accuracy</span>
+      </div>
+      {value === 100 && (
+        <CheckCircle2 className="absolute -top-1 -right-1 w-7 h-7 text-primary bg-card rounded-full" />
+      )}
     </div>
   );
 }

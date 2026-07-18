@@ -18,7 +18,7 @@ export default function CorrectionBanner() {
   const meta = LABELS[correction.type] ?? LABELS.stuck;
 
   return (
-    <div className="fixed bottom-24 inset-x-0 z-50 px-4 animate-fade-in-up">
+    <div className="fixed bottom-28 inset-x-0 z-50 px-4 animate-pop-in">
       <div
         className={cn(
           'max-w-lg mx-auto rounded-2xl border shadow-2xl backdrop-blur-xl p-4',

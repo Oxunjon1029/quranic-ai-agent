@@ -17,13 +17,19 @@ export class OpenAiTranscriber {
         headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
       });
       this.ws.on('open', () => {
+        // GA realtime API: unified session.update with a transcription-type session
         this.ws!.send(
           JSON.stringify({
-            type: 'transcription_session.update',
+            type: 'session.update',
             session: {
-              input_audio_format: 'pcm16',
-              input_audio_transcription: { model: 'gpt-4o-transcribe', language: 'ar' },
-              turn_detection: { type: 'server_vad', silence_duration_ms: 400 },
+              type: 'transcription',
+              audio: {
+                input: {
+                  format: { type: 'audio/pcm', rate: 24000 },
+                  transcription: { model: 'gpt-4o-transcribe', language: 'ar' },
+                  turn_detection: { type: 'server_vad', silence_duration_ms: 400 },
+                },
+              },
             },
           }),
         );

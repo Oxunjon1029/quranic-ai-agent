@@ -69,12 +69,17 @@ export default function LiveSurahSelector() {
             disabled={connecting}
             onClick={() => void start(selected.number, `${selected.englishName} · ${selected.name}`, startAyah)}
             className={cn(
-              'flex-[2] rounded-xl bg-primary text-primary-foreground py-2.5 text-sm font-medium',
-              'hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2',
+              'flex-[2] rounded-xl bg-primary text-primary-foreground py-2.5 px-4 text-sm font-medium',
+              'hover:opacity-90 transition-opacity disabled:opacity-50',
+              'inline-flex items-center justify-center gap-2 whitespace-nowrap',
             )}
           >
-            {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
-            {connecting ? 'Connecting…' : 'Start Recitation'}
+            {connecting ? (
+              <Loader2 className="w-4 h-4 shrink-0 animate-spin" />
+            ) : (
+              <BookOpen className="w-4 h-4 shrink-0" />
+            )}
+            <span>{connecting ? 'Connecting…' : 'Start Recitation'}</span>
           </button>
         </div>
       </Card>
